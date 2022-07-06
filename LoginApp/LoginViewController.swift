@@ -13,40 +13,50 @@ class LogInViewController: UIViewController {
     @IBOutlet var userNameTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    private let user = "Student"
+    private let password = "Password"
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let welcomeViewController = segue.destination as? WelcomeViewController else { return }
+        welcomeViewController.user = user
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
 
     @IBAction func logInButtonTapped() {
-        performSegue(withIdentifier: "detailSegue", sender: nil)
+        guard userNameTextField.text == user, passwordTextField.text == password else {
+            showAlert(
+                title: "Invalid login or password",
+                message: "Please, enter correct login or password",
+                textField: passwordTextField
+            )
+            return
+        }
+        performSegue(withIdentifier: "showWelcomeViewController", sender: nil)
     }
     
-    @IBAction func unwindSegueToLigInScreen(segue: UIStoryboardSegue) {
-        
+    @IBAction func dataRemind(_ sender: UIButton) {
+        sender.tag == 0
+        ? showAlert(title: "Oops", message: "Your name is a \(user)")
+        : showAlert(title: "Oops", message: "Your password is a \(password)")
     }
     
-    @IBAction func userNameRemind() {
-        showAlert(with: "Oops", and: "Your name is User!")
-        return
+    @IBAction func unwindSegue(_ sender: UIStoryboardSegue) {
+        userNameTextField.text = ""
+        passwordTextField.text = ""
     }
-    
-    @IBAction func passwordRemind() {
-        showAlert(with: "Oops", and: "Your password is Password!")
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let destinationViewController = segue.destination as? WelcomeViewController else { return }
-        destinationViewController.user = userNameTextField.text
-    }
-    
 }
 
 // MARK: - UIAlertController
 extension LogInViewController {
-    private func showAlert(with title: String, and message: String) {
+    private func showAlert(title: String, message: String, textField: UITextField? = nil ) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            textField?.text = ""
+        }
         alert.addAction(okAction)
         present(alert, animated: true)
     }
