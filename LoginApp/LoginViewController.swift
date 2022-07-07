@@ -14,18 +14,18 @@ class LogInViewController: UIViewController {
     @IBOutlet var passwordTextField: UITextField!
     
     private let user = "Student"
-    private let password = "Password"
+    private let password = "Your_choice"
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let welcomeViewController = segue.destination as? WelcomeViewController else { return }
-        welcomeViewController.user = user
+        guard let destinationViewController = segue.destination as? WelcomeViewController else { return }
+        destinationViewController.user = user
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         view.endEditing(true)
     }
-
+    
     @IBAction func logInButtonTapped() {
         guard userNameTextField.text == user, passwordTextField.text == password else {
             showAlert(
@@ -40,19 +40,21 @@ class LogInViewController: UIViewController {
     
     @IBAction func dataRemind(_ sender: UIButton) {
         sender.tag == 0
-        ? showAlert(title: "Oops", message: "Your name is a \(user)")
-        : showAlert(title: "Oops", message: "Your password is a \(password)")
+        ? showAlert(title: "Mistake", message: "Your name is \(user)")
+        : showAlert(title: "Mistake", message: "Your password is \(password)")
+        
     }
     
-    @IBAction func unwindSegue(_ sender: UIStoryboardSegue) {
+    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
         userNameTextField.text = ""
         passwordTextField.text = ""
     }
+    
 }
 
 // MARK: - UIAlertController
 extension LogInViewController {
-    private func showAlert(title: String, message: String, textField: UITextField? = nil ) {
+    private func showAlert(title: String, message: String, textField: UITextField? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             textField?.text = ""

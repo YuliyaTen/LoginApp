@@ -63,8 +63,8 @@
 				DA3FF87E28721F8800684FE7 /* LogInViewController.swift */,
 				DAADFD492873800D00A7A26C /* WelcomeViewController.swift */,
 				DA3FF88028721F8800684FE7 /* Main.storyboard */,
-				DA3FF88328721F8E00684FE7 /* Assets.xcassets */,
 				DA3FF88528721F8E00684FE7 /* LaunchScreen.storyboard */,
+				DA3FF88328721F8E00684FE7 /* Assets.xcassets */,
 				DA3FF88828721F8E00684FE7 /* Info.plist */,
 			);
 			path = LoginApp;
